@@ -13,4 +13,12 @@ const secretKey = JSON.parse(fs.readFileSync(wallet, 'utf-8'))
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(secretKey))
 
 // Register it to the Umi client.
-umi.use(keypairIdentity(keypair))
+umi.use(keypairIdentity(keypair));
+
+(async () => {
+  const blockhash = await umi.rpc.getLatestBlockhash();
+  const myAccount = await umi.rpc.getAccount(keypair.publicKey);
+  console.log(myAccount);
+//  assertAccountExists(myAccount);
+  console.log(blockhash)
+})();
